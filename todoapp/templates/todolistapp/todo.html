@@ -1,0 +1,75 @@
+<head>
+  <script src="//d.bablic.com/snippet/6288d4c3c4c5800001a91242.js?version=3.9"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); font-family: 'Segoe UI', sans-serif;">
+
+  <section class="vh-100 d-flex align-items-center">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+          <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5">
+
+              <h2 class="text-center mb-4 text-primary fw-bold">📝 To-Do App</h2>
+
+              <form method="POST" class="row g-3 justify-content-center mb-4">
+                {% csrf_token %}
+                <div class="col-12 col-md-8">
+                  <input type="text" name="task" class="form-control form-control-lg rounded-3" placeholder="Enter a task here" required />
+                </div>
+                <div class="col-12 col-md-4 d-grid">
+                  <button type="submit" class="btn btn-success btn-lg rounded-3">➕ Add Task</button>
+                </div>
+              </form>
+              {% comment %} <a href="{% url 'logout' %}"><button type="submit" class="btn btn-success btn-lg rounded-3">Logout</button></a> {% endcomment %}
+
+              <div class="text-center mb-4">
+                <a href="{% url 'logout' %}">
+                  <button class="btn btn-danger px-4 rounded-3">🚪 Logout</button>
+                </a>
+              </div>
+
+              <div class="list-group">
+                <!-- Header row -->
+                <div class="list-group-item d-flex justify-content-between fw-bold bg-light border rounded-3 mb-1">
+                  <div class="w-50">🗂️ Todo Item</div>
+                  <div class="w-25 text-center">📊 Status</div>
+                  <div class="w-25 text-end">⚙️ Actions</div>
+                </div>
+
+                {% for i in todos %}
+                <div class="list-group-item d-flex justify-content-between align-items-center border rounded-3 mb-2">
+                  <div class="w-50">{{ i.todo_name }}</div>
+                  <div class="w-25 text-center">
+                    {% if i.status == True %}
+                    <span class="badge bg-success">✅ Completed</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">⏳ In Progress</span>
+                    {% endif %}
+                  </div>
+                  <div class="w-25 text-end">
+                    <div class="d-flex justify-content-end gap-2">
+                      <a href="{% url 'delete' i.todo_name %}">
+                        <button class="btn btn-outline-danger btn-sm">🗑️Delete</button>
+                      </a>
+                      <a href="{% url 'update' i.todo_name %}">
+                        <button class="btn btn-outline-success btn-sm">✔️Finish</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
