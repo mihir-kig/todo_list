@@ -18,7 +18,7 @@ from django.utils.timezone import make_aware
 def home(request):
     if request.method == 'POST':
         task_name = request.POST.get('task')
-        reminder_time_str = request.POST.get('reminder_time')  # Get the reminder time from form
+        reminder_time_str = request.POST.get('reminder_time') 
         
         reminder_time = None
         if reminder_time_str:

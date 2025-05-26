@@ -5,9 +5,208 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(120deg, #89f7fe, #66a6ff 50%, #fbc2eb 100%);
+        background-size: 200% 200%;
+        animation: gradientMove 10s ease-in-out infinite alternate;
+        padding: 20px;
+      }
+
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+
+      .wrapper {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 48px 36px 40px 36px;
+        border-radius: 2rem;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.17);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        animation: fadeIn 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+      }
+
+      /* Floating animated bubbles */
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.16;
+        pointer-events: none;
+        z-index: 0;
+        animation: floatBubble 12s infinite linear;
+      }
+      .bubble.b1 { width: 90px; height: 90px; left: -60px; top: 30px; background: #66a6ff; animation-delay: 0s; }
+      .bubble.b2 { width: 60px; height: 60px; right: -30px; top: 70px; background: #fbc2eb; animation-delay: 2s;}
+      .bubble.b3 { width: 100px; height: 100px; left: 60px; bottom: -50px; background: #89f7fe; animation-delay: 4s;}
+      .bubble.b4 { width: 55px; height: 55px; right: 30px; bottom: -40px; background: #66a6ff; animation-delay: 1s;}
+      .bubble.b5 { width: 30px; height: 30px; left: 150px; top: -20px; background: #fbc2eb; animation-delay: 3s;}
+
+      @keyframes floatBubble {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(-40px);}
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(50px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+
+      .wrapper h2 {
+        text-align: center;
+        font-size: 2.1rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        letter-spacing: 1px;
+        color: #253053;
+        position: relative;
+        z-index: 1;
+      }
+
+      .wrapper h2::before {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 3px;
+        width: 70px;
+        background: linear-gradient(90deg,#66a6ff,#fbc2eb);
+        border-radius: 8px;
+        z-index: 1;
+      }
+
+      .alert {
+        background: linear-gradient(90deg, #fbc2eb 0%, #fcdffb 100%);
+        padding: 11px 0;
+        border-left: 5px solid #e57373;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: #c62828;
+        font-size: 15px;
+        text-align: center;
+        font-weight: 500;
+        z-index: 2;
+        position: relative;
+      }
+
+      form {
+        z-index: 2;
+        position: relative;
+      }
+
+      .input-box {
+        margin: 18px 0;
+        position: relative;
+      }
+
+      .input-box input {
+        width: 100%;
+        height: 52px;
+        padding: 0 18px 0 44px;
+        font-size: 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        transition: border 0.3s, box-shadow 0.3s;
+        background: #f5f7fa;
+        color: #1f2937;
+        outline: none;
+        font-weight: 400;
+      }
+
+      .input-box input:focus {
+        border-color: #66a6ff;
+        box-shadow: 0 0 0 3px #66a6ff33;
+      }
+      /* Icon style */
+      .input-box .icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #66a6ff;
+        opacity: 0.8;
+        font-size: 1.2rem;
+      }
+
+      .input-box.button input {
+        background: linear-gradient(90deg, #66a6ff, #fbc2eb 85%);
+        color: white;
+        font-weight: 700;
+        border: none;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 10px #fbc2eb22;
+        padding-left: 0;
+      }
+
+      .input-box.button input:hover {
+        background: linear-gradient(90deg, #253053 0%, #66a6ff 100%);
+        color: #fff;
+        box-shadow: 0 2px 20px #66a6ff33;
+      }
+
+      .text {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .text h3 {
+        font-size: 14.3px;
+        color: #374151;
+        font-weight: 400;
+      }
+
+      .text h3 a {
+        color: #66a6ff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .text h3 a:hover {
+        text-decoration: underline;
+        color: #253053;
+      }
+
+      @media (max-width: 550px) {
+        .wrapper {
+          padding: 30px 12px 25px 12px;
+          border-radius: 1rem;
+        }
+        .wrapper h2 { font-size: 1.5rem; }
+        .input-box input { font-size: 15px; height: 46px;}
+      }
+
+    </style>
+    <!-- Add FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/3e7a048ef2.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="wrapper animate">
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+      <div class="bubble b4"></div>
+      <div class="bubble b5"></div>
+
       <h2>Welcome Back 👋</h2>
 
       {% if messages %}
@@ -16,13 +215,15 @@
         {% endfor %}
       {% endif %}
 
-      <form action="#" method="POST">
+      <form action="#" method="POST" autocomplete="off">
         {% csrf_token %}
         <div class="input-box">
-          <input type="text" placeholder="Enter your username" required name="uname">
+          <span class="icon"><i class="fas fa-user"></i></span>
+          <input type="text" placeholder="Enter your username" required name="uname" autocomplete="username">
         </div>
         <div class="input-box">
-          <input type="password" placeholder="Enter your password" required name="pass">
+          <span class="icon"><i class="fas fa-lock"></i></span>
+          <input type="password" placeholder="Enter your password" required name="pass" autocomplete="current-password">
         </div>
 
         <div class="input-box button">
@@ -38,129 +239,4 @@
       </form>
     </div>
   </body>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #a5d8ff, #dbeafe, #e0e7ff);
-      padding: 20px;
-      animation: bgFade 10s infinite alternate;
-    }
-
-    @keyframes bgFade {
-      from { background-position: left; }
-      to { background-position: right; }
-    }
-
-    .wrapper {
-      width: 100%;
-      max-width: 400px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-      backdrop-filter: blur(12px);
-      animation: fadeIn 0.6s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .wrapper h2 {
-      text-align: center;
-      font-size: 26px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #1f2937;
-      position: relative;
-    }
-
-    .wrapper h2::before {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 3px;
-      width: 60px;
-      background: #6366f1;
-      border-radius: 10px;
-    }
-
-    .input-box {
-      margin: 16px 0;
-    }
-
-    .input-box input {
-      width: 100%;
-      height: 50px;
-      padding: 0 15px;
-      font-size: 15px;
-      border: 2px solid #e5e7eb;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .input-box input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-    }
-
-    .input-box.button input {
-      background: #6366f1;
-      color: white;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 1px;
-    }
-
-    .input-box.button input:hover {
-      background: #4f46e5;
-    }
-
-    .text {
-      text-align: center;
-      margin-top: 18px;
-    }
-
-    .text h3 {
-      font-size: 14px;
-      color: #374151;
-    }
-
-    .text h3 a {
-      color: #6366f1;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .text h3 a:hover {
-      text-decoration: underline;
-    }
-
-    .alert {
-      background-color: #fee2e2;
-      padding: 10px;
-      border-left: 4px solid #b91c1c;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      color: #b91c1c;
-      font-size: 14px;
-      text-align: center;
-    }
-
-  </style>
 </html>

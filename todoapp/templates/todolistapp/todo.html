@@ -2,71 +2,135 @@
   <script src="//d.bablic.com/snippet/6288d4c3c4c5800001a91242.js?version=3.9"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      background: linear-gradient(120deg, #c6e6fb 0%, #f8f9fa 50%, #fbc2eb 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.75);
+      border-radius: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: box-shadow 0.2s;
+    }
+    .glass-card:hover {
+      box-shadow: 0 16px 40px 0 rgba(31, 38, 135, 0.18);
+    }
+    .form-control:focus, .btn:focus {
+      box-shadow: 0 0 0 0.2rem #a5d8ff40;
+      border-color: #74c0fc;
+    }
+    .todo-header-row {
+      background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+      color: #343a40;
+      font-weight: 600;
+      border: none;
+      margin-bottom: 1rem;
+      border-radius: 1rem;
+    }
+    .list-group-item {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #e3e6ea;
+      border-radius: 1rem !important;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .list-group-item:hover {
+      box-shadow: 0 2px 12px 0 rgba(134, 183, 255, 0.13);
+      transform: scale(1.01);
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #76c7fa 0%, #fbc2eb 100%);
+      color: #fff;
+      border: none;
+    }
+    .btn-gradient:hover {
+      background: linear-gradient(90deg, #0093e9 0%, #80d0c7 100%);
+      color: #fff;
+    }
+    .badge {
+      font-size: 1rem;
+      padding: 0.5em 1em;
+      border-radius: 1rem;
+    }
+    .logout-btn {
+      background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+      color: #fff !important;
+      border: none;
+    }
+    .logout-btn:hover {
+      background: linear-gradient(90deg, #f857a6 0%, #ff5858 100%);
+      color: #fff !important;
+      box-shadow: 0 2px 8px #f857a644;
+    }
+    @media (max-width: 600px) {
+      .card-body { padding: 1.2rem !important; }
+      .form-control-lg { font-size: 1rem; }
+      .btn-lg { font-size: 1rem; }
+    }
+  </style>
 </head>
 
-<body style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); font-family: 'Segoe UI', sans-serif;">
-
+<body>
   <section class="vh-100 d-flex align-items-center">
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7">
-          <div class="card shadow-lg border-0 rounded-4">
+          <div class="card glass-card border-0 rounded-4">
             <div class="card-body p-5">
 
-              <h2 class="text-center mb-4 text-primary fw-bold">📝 To-Do App</h2>
+              <h2 class="text-center mb-4 text-primary fw-bold" style="letter-spacing:1px; text-shadow:0 2px 8px #fbc2eb44;">📝 To-Do App</h2>
 
               <form method="POST" class="row g-3 justify-content-center mb-4">
-  {% csrf_token %}
-  <div class="col-12 col-md-6">
-    <input type="text" name="task" class="form-control form-control-lg rounded-3" placeholder="Enter a task here" required />
-  </div>
-  <div class="col-12 col-md-4">
-    <input type="datetime-local" name="reminder_time" class="form-control form-control-lg rounded-3" />
-  </div>
-  <div class="col-12 col-md-2 d-grid">
-    <button type="submit" class="btn btn-success btn-lg rounded-3">➕ Add Task</button>
-  </div>
-</form>
-
-              {% comment %} <a href="{% url 'logout' %}"><button type="submit" class="btn btn-success btn-lg rounded-3">Logout</button></a> {% endcomment %}
+                {% csrf_token %}
+                <div class="col-12 col-md-6">
+                  <input type="text" name="task" class="form-control form-control-lg rounded-3" placeholder="Enter a task here" required />
+                </div>
+                <div class="col-12 col-md-4">
+                  <input type="datetime-local" name="reminder_time" class="form-control form-control-lg rounded-3" />
+                </div>
+                <div class="col-12 col-md-2 d-grid">
+                  <button type="submit" class="btn btn-gradient btn-lg rounded-3 shadow-sm">➕ Add Task</button>
+                </div>
+              </form>
 
               <div class="text-center mb-4">
                 <a href="{% url 'logout' %}">
-                  <button class="btn btn-danger px-4 rounded-3">🚪 Logout</button>
+                  <button class="btn logout-btn px-4 rounded-3 shadow-sm">🚪 Logout</button>
                 </a>
               </div>
 
               <div class="list-group">
                 <!-- Header row -->
-                <div class="list-group-item d-flex justify-content-between fw-bold bg-light border rounded-3 mb-1">
+                <div class="list-group-item d-flex justify-content-between todo-header-row">
                   <div class="w-50">🗂️ Todo Item</div>
                   <div class="w-25 text-center">📊 Status</div>
                   <div class="w-25 text-end">⚙️ Actions</div>
                 </div>
-{% for i in todos %}
-<div class="list-group-item d-flex justify-content-between align-items-center border rounded-3 mb-2">
-  <div class="w-50">{{ i.todo_name }}</div>
-  <div class="w-25 text-center">
-    {% if i.status %}
-      <span class="badge bg-success">✅ Completed</span>
-    {% else %}
-      <span class="badge bg-warning text-dark">⏳ In Progress</span>
-    {% endif %}
-  </div>
-  <div class="w-25 text-end">
-    <div class="d-flex justify-content-end gap-2">
-      <a href="{% url 'delete' i.id %}">
-        <button class="btn btn-outline-danger btn-sm">🗑️Delete</button>
-      </a>
-      <a href="{% url 'update' i.id %}">
-        <button class="btn btn-outline-success btn-sm">✔️Finish</button>
-      </a>
-    </div>
-  </div>
-</div>
-{% endfor %}
-
-
+                {% for i in todos %}
+                <div class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                  <div class="w-50">{{ i.todo_name }}</div>
+                  <div class="w-25 text-center">
+                    {% if i.status %}
+                      <span class="badge bg-success">✅ Completed</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark">⏳ In Progress</span>
+                    {% endif %}
+                  </div>
+                  <div class="w-25 text-end">
+                    <div class="d-flex justify-content-end gap-2">
+                      <a href="{% url 'delete' i.id %}">
+                        <button class="btn btn-outline-danger btn-sm shadow-sm">🗑️Delete</button>
+                      </a>
+                      <a href="{% url 'update' i.id %}">
+                        <button class="btn btn-outline-success btn-sm shadow-sm">✔️Finish</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
               </div>
 
             </div>
@@ -75,5 +139,4 @@
       </div>
     </div>
   </section>
-
 </body>

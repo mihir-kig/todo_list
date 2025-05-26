@@ -5,33 +5,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for input icons -->
+    <script src="https://kit.fontawesome.com/3e7a048ef2.js" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%);
+        background-size: 200% 200%;
+        animation: gradientMove 10s ease-in-out infinite alternate;
+        padding: 20px;
+      }
+
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+
+      .wrapper {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 46px 38px 38px 38px;
+        border-radius: 2rem;
+        box-shadow: 0 10px 32px 0 rgba(31, 38, 135, 0.11);
+        width: 100%;
+        max-width: 410px;
+        position: relative;
+        z-index: 1;
+        animation: fadeIn 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+        overflow: hidden;
+      }
+
+      /* Floating animated bubbles for visual interest */
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.13;
+        pointer-events: none;
+        z-index: 0;
+        animation: floatBubble 14s infinite linear;
+      }
+      .bubble.b1 { width: 90px; height: 90px; left: -50px; top: 30px; background: #a6c1ee; animation-delay: 0s; }
+      .bubble.b2 { width: 60px; height: 60px; right: -30px; top: 70px; background: #fbc2eb; animation-delay: 2s;}
+      .bubble.b3 { width: 100px; height: 100px; left: 60px; bottom: -60px; background: #b2f7ef; animation-delay: 4s;}
+      .bubble.b4 { width: 55px; height: 55px; right: 30px; bottom: -40px; background: #a6c1ee; animation-delay: 1s;}
+      .bubble.b5 { width: 35px; height: 35px; left: 160px; top: -25px; background: #fbc2eb; animation-delay: 3s;}
+
+      @keyframes floatBubble {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(-40px);}
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(50px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+
+      .wrapper h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        text-align: center;
+        color: #253053;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .wrapper h1::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 3.5px;
+        width: 70px;
+        background: linear-gradient(90deg,#a6c1ee,#fbc2eb);
+        border-radius: 8px;
+        z-index: 1;
+      }
+
+      .wrapper h2 {
+        font-size: 1.05rem;
+        font-weight: 500;
+        text-align: center;
+        color: #e55486;
+        margin-bottom: 12px;
+        z-index: 1;
+        position: relative;
+      }
+
+      .alert, .wrapper h2 {
+        background: linear-gradient(90deg,#fbc2eb 0%, #fcdffb 100%);
+        padding: 8px 0;
+        border-left: 5px solid #e57373;
+        border-radius: 8px;
+        color: #c62828;
+        font-size: 15px;
+        margin-bottom: 18px;
+        text-align: center;
+        font-weight: 500;
+        z-index: 2;
+        position: relative;
+      }
+
+      form {
+        z-index: 2;
+        position: relative;
+        margin-top: 18px;
+      }
+
+      .input-box {
+        margin: 20px 0;
+        position: relative;
+      }
+
+      .input-box input {
+        width: 100%;
+        height: 52px;
+        padding: 0 16px 0 46px;
+        font-size: 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        transition: border 0.3s, box-shadow 0.3s;
+        background: #f5f7fa;
+        color: #1f2937;
+        outline: none;
+        font-weight: 400;
+      }
+
+      .input-box input:focus {
+        border-color: #a6c1ee;
+        box-shadow: 0 0 0 3px #a6c1ee33;
+      }
+
+      .input-box .icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a6c1ee;
+        opacity: 0.8;
+        font-size: 1.2rem;
+      }
+
+      .input-box.button input {
+        background: linear-gradient(90deg, #a6c1ee, #fbc2eb 85%);
+        color: white;
+        font-weight: 700;
+        border: none;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 10px #fbc2eb22;
+        padding-left: 0;
+      }
+
+      .input-box.button input:hover {
+        background: linear-gradient(90deg, #253053 0%, #a6c1ee 100%);
+        color: #fff;
+        box-shadow: 0 2px 20px #a6c1ee33;
+      }
+
+      .text {
+        margin-top: 20px;
+        text-align: center;
+        z-index: 1;
+      }
+
+      .text h3 {
+        font-size: 14.3px;
+        color: #374151;
+        font-weight: 400;
+      }
+
+      .text h3 a {
+        color: #a6c1ee;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .text h3 a:hover {
+        text-decoration: underline;
+        color: #253053;
+      }
+
+      @media (max-width: 550px) {
+        .wrapper {
+          padding: 24px 8px 18px 8px;
+          border-radius: 1rem;
+        }
+        .wrapper h1 { font-size: 1.3rem; }
+        .input-box input { font-size: 15px; height: 44px;}
+      }
+    </style>
   </head>
 
   <body>
     <div class="wrapper animate">
-      <h1>Register</h1><br>
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+      <div class="bubble b4"></div>
+      <div class="bubble b5"></div>
 
+      <h1>Register</h1><br>
       {% if messages %}
         {% for message in messages %}
           <h2>{{ message }}</h2>
         {% endfor %}
       {% endif %}
 
-      <form action="#" method="POST">
+      <form action="#" method="POST" autocomplete="off">
         {% csrf_token %}
         <div class="input-box">
-          <input type="text" placeholder="Create a username" required name="username">
+          <span class="icon"><i class="fas fa-user"></i></span>
+          <input type="text" placeholder="Create a username" required name="username" autocomplete="username">
         </div>
         <div class="input-box">
-          <input type="email" placeholder="Enter your email" required name="email">
+          <span class="icon"><i class="fas fa-envelope"></i></span>
+          <input type="email" placeholder="Enter your email" required name="email" autocomplete="email">
         </div>
         <div class="input-box">
-          <input type="password" placeholder="Enter your password" required name="password">
+          <span class="icon"><i class="fas fa-lock"></i></span>
+          <input type="password" placeholder="Enter your password" required name="password" autocomplete="new-password">
         </div>
         <div class="input-box button">
           <input type="submit" value="Register">
         </div>
-
         <div class="text">
           <h3>Already have an account? <a href="{% url 'login-page' %}">Login now</a></h3>
         </div>
@@ -41,131 +251,4 @@
       </form>
     </div>
   </body>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #dbeafe, #eef2ff);
-      padding: 20px;
-    }
-
-    .wrapper {
-      background: #fff;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(152, 35, 9, 0.15);
-      width: 100%;
-      max-width: 420px;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-    .wrapper h1{
-      font-size: 26px;
-      font-weight: 600;
-      text-align: center;
-      color:rgb(12, 15, 19);
-      position: relative;
-    }
-
-    .wrapper h2 {
-      font-size: 26px;
-      font-weight: 600;
-      text-align: center;
-      color:rgb(14, 90, 197);
-      position: relative;
-    }
-
-    .wrapper h2::before {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 4px;
-      width: 50px;
-      background: #6366f1;
-      border-radius: 10px;
-    }
-
-    form {
-      margin-top: 25px;
-    }
-
-    .input-box {
-      margin: 15px 0;
-    }
-
-    .input-box input {
-      width: 100%;
-      height: 50px;
-      padding: 0 15px;
-      font-size: 16px;
-      border: 2px solid #e5e7eb;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .input-box input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    }
-
-    .input-box.button input {
-      background: #6366f1;
-      color: #fff;
-      font-weight: 600;
-      letter-spacing: 1px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .input-box.button input:hover {
-      background: #4f46e5;
-    }
-
-    .text {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .text h3 {
-      font-size: 14px;
-      color: #374151;
-    }
-
-    .text h3 a {
-      color: #6366f1;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .text h3 a:hover {
-      text-decoration: underline;
-    }
-
-    .alert {
-      text-align: center;
-      padding: 10px;
-      background-color: #fee2e2;
-      color: #b91c1c;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
 </html>
