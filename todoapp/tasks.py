@@ -9,6 +9,10 @@ def send_reminder_email(todo_id):
         subject = "⏰ Task Reminder"
         message = f"Don't forget: {todo.todo_name}"
         recipient = todo.user.email
-        send_mail(subject, message, 'mihirkantiroy0901@gmail.com', [recipient])
+
+        if recipient:
+            send_mail(subject, message, 'mihirkantiroy0901@gmail.com', [recipient])
+            todo.status = True  
+            todo.save()
     except Todo.DoesNotExist:
-        pass
+        print(f"Todo with ID {todo_id} does not exist.")

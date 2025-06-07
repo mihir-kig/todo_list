@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Verify OTP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .otp-container {
+            max-width: 370px;
+            margin: 70px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 30px rgba(80, 120, 200, 0.15);
+            padding: 40px 32px 32px 32px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .otp-container h2 {
+            color: #377dff;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .otp-container p {
+            color: #444;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+        .otp-input {
+            width: 70%;
+            padding: 13px;
+            margin: 8px 0 18px 0;
+            border: 1.5px solid #c6e2ff;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            letter-spacing: 0.2em;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .otp-input:focus {
+            border-color: #377dff;
+            outline: none;
+        }
+        .otp-btn {
+            background: linear-gradient(90deg, #377dff 60%, #66a6ff 100%);
+            color: #fff;
+            padding: 12px 0;
+            width: 80%;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.07rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(51, 125, 255, 0.13);
+            transition: background 0.21s;
+        }
+        .otp-btn:hover, .otp-btn:focus {
+            background: linear-gradient(90deg, #275dba 60%, #377dff 100%);
+        }
+        .messages {
+            margin-top: 18px;
+            margin-bottom: -3px;
+        }
+        .messages ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .messages li {
+            color: #d7263d;
+            background: #fff4f4;
+            border-left: 3px solid #d7263d;
+            padding: 7px 12px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            font-size: 0.98rem;
+            text-align: left;
+            display: inline-block;
+        }
+        @media (max-width: 480px) {
+            .otp-container {
+                padding: 28px 10px 22px 10px;
+            }
+            .otp-input, .otp-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="otp-container">
+        <h2>OTP Verification</h2>
+        <p>We've sent a <b>6-digit OTP</b> to your registered email.<br>Please enter it below to continue.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input class="otp-input" type="text" name="otp" placeholder="Enter OTP" maxlength="6" pattern="\d{6}" required autofocus>
+            <br>
+            <button class="otp-btn" type="submit">Verify OTP</button>
+        </form>
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

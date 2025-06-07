@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout/', views.LogoutView, name='logout'),
     path('delete-task/<int:id>/', views.DeleteTask, name='delete'),
     path('update/<int:id>/', views.Update, name='update'),
+    path('verify-otp/', views.verify_otp_view, name='verify-otp-page'),
 ]
