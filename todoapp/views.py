@@ -3,11 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Todo, OTP
+from .models import Todo, OTP, Expense
 from django.utils import timezone
 from .tasks import send_reminder_email
 import random
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from datetime import datetime, timedelta
+from .models import Expense
+import weasyprint
 
 @login_required(login_url='login-page')
 def home(request):
@@ -30,6 +35,45 @@ def home(request):
     context = {'todos': all_todos}
     return render(request, 'todolistapp/todo.html', context)
 
+@login_required(login_url='login-page')
+def expense_page(request):
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        amount = request.POST.get('amount')
+        if description and amount:
+            Expense.objects.create(user=request.user, description=description, amount=amount)
+            return redirect('expense-page')
+    all_expenses = Expense.objects.filter(user=request.user).order_by('-date')
+    total = sum(exp.amount for exp in all_expenses)
+    context = {'expenses': all_expenses, 'total': total}
+    return render(request, 'todolistapp/expense.html', context)
+
+
+
+
+def expense_pdf(request, period='monthly'):
+    today = datetime.today().date()
+
+    if period == 'daily':
+        start_date = today
+    elif period == 'weekly':
+        start_date = today - timedelta(days=7)
+    else:  # monthly
+        start_date = today.replace(day=1)
+
+    expenses = Expense.objects.filter(user=request.user, date__gte=start_date).order_by('-date')
+    total = sum(e.amount for e in expenses)
+
+    html = render_to_string('todolistapp/expense_pdf.html', {'expenses': expenses, 'total': total, 'period': period})
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="{period}_expenses.pdf"'
+
+    weasyprint.HTML(string=html).write_pdf(response)
+
+    return response
+
+
 def loginpage(request):
     if request.method == 'POST':
         username = request.POST.get('uname')
@@ -43,7 +87,7 @@ def loginpage(request):
             send_mail(
                 'Your OTP Code',
                 f'Your OTP is: {otp_code}',
-                'mihirkantiroy0901@gmail.com',  # Update to your sender email
+                'mihirkantiroy0901@gmail.com',
                 [user.email],
                 fail_silently=False,
             )
@@ -86,7 +130,6 @@ def register(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect('register-page')
-        # Check if email already exists
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already used")
             return redirect('register-page')
